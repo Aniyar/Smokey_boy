@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        div {
+            text-align: center;
+            margin: 0 auto;
+            width: 250px;
+        }
+
+        body {
+            background-image: url('https://media-cldnry.s-nbcnews.com/image/upload/newscms/2021_30/3494481/210727-tamarack-fire-smoke-ew-240p.jpg');
+        }
+    </style>
+</head>
+
+<body style='margin: 70px'>
+    <div>
+        <h2>Enter fire coordinates</h2>
+        <form role="form" method="POST">
+            <label for="LngLat">Coordinates:</label><br>
+            <input type="text" name="LngLat" id="LngLat"><br>
+            <label for="radius">Radius:</label><br>
+            <input type="text" name="radius" id="radius"><br><br>
+
+            <button type='submit'>Submit</button>
+        </form>
+
+        <button type="button" class="btn btn-default" id="map_btn">See Map</button>
+
+    </div>
+
+
+</body>
+<script>
+    document.getElementById("map_btn").onclick = function () {
+        location.href = "/map";
+    };
+</script>
+
+</html>
