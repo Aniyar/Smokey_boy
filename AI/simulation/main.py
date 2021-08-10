@@ -44,7 +44,18 @@ def step(X):
                              (1, 0), (1, 1)]
             if burning[y, x] == 1:
                 # If we are already burning...
-                pass
+                # Simulate the impact of embers flying off and starting more fires far away
+                if np.random.random() < 0.002:
+                    # The distance the ember travels
+                    distance = int(wind_speed[y, x] * 1.5)
+                    # Calculate the displacement assuming the ember travels with the wind
+                    wind_direction_rad = np.radians(wind_direction[y, x])
+                    dy = int(distance * - np.cos(wind_direction_rad))
+                    dx = int(distance * np.sin(wind_direction_rad))
+                    # Stay within grid bounds
+                    if y + dy in range(ny) and x + dx in range(nx):
+                        # Let the ember land on the ground and potentially start a fire.
+                        prob_multipliers[y + dy, x + dx] = 5
             else:
                 # If we are not burning, check if we should burn
                 for neighbour in neighbourhood:
@@ -80,7 +91,7 @@ def step(X):
                 # prob_multipliers[y, x] *= 1 / (1 + 0.7 * humidity[y, x])
     # Compute the probability of burning
     prob = np.maximum(
-        np.clip(np.multiply(fuel, prob_multipliers), 0, 1), 
+        np.clip(np.multiply(fuel, prob_multipliers), 0, 1),
         burning
     )
     # Compute the new state by sampling probabilities at each cell
