@@ -50,9 +50,14 @@ def step(X):
                     # Slightly lower probability increase if the burning neighbour is diagnonal
                     probability_multiplier *= 1 if np.abs(dy) + np.abs(
                         dx) < 2 else 0.7
-                    # Wind impact
+                    # # Wind impact
                     probability_multiplier *=  1 + np.dot([-dy, -dx]/np.linalg.norm(neighbour), [-np.cos(np.radians(wind_direction[y + dy, x + dx])), np.sin(np.radians(wind_direction[y + dy, x + dx]))])
                     probability_multiplier *= (1 + wind_speed[y, x])/20
+                    # Slope d
+                    m = -(altitude[y+dy, x+dx] - altitude[y,x])/(np.abs(np.linalg.norm(neighbour)) * 10)
+                    probability_multiplier *=  (1+m) if m > 0 else (1/(1-m)) # Why the heck do we need a minus sign??!
+                    # # Road
+                    # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else  
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
@@ -67,12 +72,6 @@ def step(X):
     return X
 
 
-def show_animation_frame(X, fig):
-    ax = fig.gca()
-    fuel = X[3, :, :]
-    burning = X[7, :, :]
-    ax.imshow(fuel, cmap='PRGn')
-    ax.imshow(burning, cmap=fire_cmap)
 
 
 if __name__ == '__main__':
@@ -84,7 +83,7 @@ if __name__ == '__main__':
     X = init_del_loma_smol()
 
     # Start a fire at (44,44)
-    X[7, 44, 44] = 1
+    X[7, 150, 150] = 1
 
     fig = plt.figure(figsize=(25/3, 6.25))
     ax = fig.add_subplot(111)
@@ -92,10 +91,10 @@ if __name__ == '__main__':
 
     ims = []
 
-    for i in tqdm(range(15)):
-        fuel = X[3, :, :]
+    for i in tqdm(range(30)):
+        fuel = X[6, :, :]
         burning = X[7, :, :] 
-        map_layer = ax.imshow(fuel, cmap='PRGn')
+        map_layer = ax.imshow(fuel, cmap='jet')
         fire_layer = ax.imshow(burning, cmap=fire_cmap)
         ims.append([map_layer, fire_layer])
         X = step(X)

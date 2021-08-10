@@ -50,7 +50,7 @@ def init_del_loma():
 
   # ====== Init altitude layer ========
 
-  height_scale = 5 # how many meters does an increase of 1 unit represent?
+  height_scale = 5. # how many meters does an increase of 1 unit represent?
   # Load altitude map
   with Image.open('height.png') as im:
     im = im.convert('L')
@@ -115,7 +115,7 @@ def init_del_loma_smol():
 
   # ====== Init altitude layer ========
 
-  height_scale = 5  # how many meters does an increase of 1 unit represent?
+  height_scale = 5.  # how many meters does an increase of 1 unit represent?
   # Load altitude map
   with Image.open('height.png') as im:
     im = im.convert('L')
