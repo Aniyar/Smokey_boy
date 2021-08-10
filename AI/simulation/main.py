@@ -94,7 +94,7 @@ def step(X):
                     # Slightly lower probability increase if the burning neighbour is diagnonal
                     probability_multiplier = 1.1 if np.abs(dy) + np.abs(
                         dx) < 2 else 0.9
-                    probability_multiplier *= 1 - np.dot(neighbour/np.linalg.norm(neighbour), [np.sin(wind_direction[y, x]), np.cos(wind_direction[y,x])])
+                    probability_multiplier *= 1 + np.dot([-dy, -dx]/np.linalg.norm(neighbour), [np.cos(wind_direction[y + dy, x + dx]), np.sin(wind_direction[y + dy,x + dx])])
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     ims = []
 
-    for i in tqdm(range(30)):
+    for i in tqdm(range(15)):
         fuel = X[3, :, :]
         burning = X[7, :, :] 
         map_layer = ax.imshow(fuel, cmap='PRGn')
