@@ -1,8 +1,7 @@
 import numpy as np
 from PIL import Image
 
-if __name__ == '__main__':
-
+def init_del_loma():
   # Grid dimensions in 20m resolution
   nx, ny = 400, 400
 
@@ -17,7 +16,7 @@ if __name__ == '__main__':
   6. Precipitation [0,inf) - real [Done]
   7. Altitude [0,inf) - real [Done]
   8. Burning {0,1} - boolean 
-  9. road [0,1] - boolean
+  9. road {0,1} - boolean
   10. Interventions [0, number of interventions] - discrete
   """
 
@@ -32,7 +31,7 @@ if __name__ == '__main__':
 
   # ====== Init wind layers =====
   wind_speed = np.ones((ny, nx)) * 5 # Uniform speed
-  wind_direction = np.ones((ny, nx)) * 90 # Blowing east
+  wind_direction = np.ones((ny, nx)) * 90 # Blowing East
   grid[1,:,:] = wind_speed
   grid[2,:,:] = wind_direction
 
@@ -63,5 +62,11 @@ if __name__ == '__main__':
     road_layer = np.asarray(im)
     road_layer = road_layer[:, :, 1]
     grid[8,:,:] = road_layer
+
+  return grid
+
+
+if __name__ == '__main__':
+  init_del_loma()
 
 
