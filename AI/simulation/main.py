@@ -46,11 +46,13 @@ def step(X):
                 neighbour_on_fire = burning[y + dy, x + dx]
                 if neighbour_on_fire == 1:
                     if probability_multiplier == 0:
-                        probability_multiplier = 0.25
+                        probability_multiplier = 0.5
                     # Slightly lower probability increase if the burning neighbour is diagnonal
                     probability_multiplier *= 1 if np.abs(dy) + np.abs(
                         dx) < 2 else 0.7
+                    # Wind impact
                     probability_multiplier *=  1 + np.dot([-dy, -dx]/np.linalg.norm(neighbour), [-np.cos(np.radians(wind_direction[y + dy, x + dx])), np.sin(np.radians(wind_direction[y + dy, x + dx]))])
+                    probability_multiplier *= (1 + wind_speed[y, x])/20
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
