@@ -36,52 +36,57 @@ def step(X):
 
     # Probability that there will be a fire
     prob = np.zeros((ny, nx))
+    # Probability multipliers (initialised to -1)
+    prob_multipliers = np.ones((ny, nx)) * -1
     for y in range(1, ny - 1):
         for x in range(1, nx - 1):
             neighbourhood = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1),
                              (1, 0), (1, 1)]
-            probability_multiplier = 0
-            for neighbour in neighbourhood:
-                dx, dy = neighbour
-                neighbour_on_fire = burning[y + dy, x + dx]
-                if neighbour_on_fire == 1:
-                    if probability_multiplier == 0:
-                        probability_multiplier = 0.5
-                    # Slightly lower probability increase if the burning neighbour is diagnonal
-                    probability_multiplier *= 1 if np.abs(dy) + np.abs(
-                        dx) < 2 else 0.7
+            if burning[y, x] == 1:
+                # If we are already burning...
+                pass
+            else:
+                # If we are not burning, check if we should burn
+                for neighbour in neighbourhood:
+                    dx, dy = neighbour
+                    neighbour_on_fire = burning[y + dy, x + dx]
+                    if neighbour_on_fire == 1:
+                        if prob_multipliers[y, x] == -1:
+                            prob_multipliers[y, x] = 1
+                        # Slightly lower probability increase if the burning neighbour is diagnonal
+                        prob_multipliers[y, x] *= 1 if np.abs(dy) + np.abs(
+                            dx) < 2 else 0.7
 
-                    # Wind impact
-                    probability_multiplier *= 1 + np.dot(
-                        [-dy, -dx]/np.linalg.norm(neighbour),
-                        [
-                            -np.cos(np.radians(wind_direction[y + dy, x + dx])),
-                            np.sin(np.radians(wind_direction[y + dy, x + dx]))
-                        ]
-                    )
-                    probability_multiplier *= (1 + wind_speed[y, x])/20
+                        # Wind impact
+                        prob_multipliers[y, x] *= 1 + np.dot(
+                            [-dy, -dx]/np.linalg.norm(neighbour),
+                            [
+                                -np.cos(np.radians(wind_direction[y + dy, x + dx])),
+                                np.sin(np.radians(
+                                    wind_direction[y + dy, x + dx]))
+                            ]
+                        )
+                        prob_multipliers[y, x] *= (1 + wind_speed[y, x])/20
 
-                    # Slope
-                    m = (altitude[y, x] - altitude[y+dy, x+dx]) / \
-                        (np.abs(np.linalg.norm(neighbour)) * 10)
-                    probability_multiplier *= (1+m) if m > 0 else (1/(1-m))
+                        # Slope
+                        m = (altitude[y, x] - altitude[y+dy, x+dx]) / \
+                            (np.abs(np.linalg.norm(neighbour)) * 10)
+                        prob_multipliers[y, x] *= (1+m) if m > 0 else (1/(1-m))
 
-                    # Road
-                    # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else
+                        # Road
+                        # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else
 
-                    # Humidity
-                    # probability_multiplier = 1 / (probability_multiplier - (probability_multiplier * humidity[y, x]))
-                    probability_multiplier = 1 / (1 + 0.7 * humidity[y, x])
-            # Compute the probability of burning
-            prob[y, x] = max(np.clip(
-                fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
-            # Some calculations that will change the probabilities
-            pass
-    # Compute the new state
+                # Humidity
+                # prob_multipliers[y, x] *= 1 / (1 + 0.7 * humidity[y, x])
+    # Compute the probability of burning
+    prob = np.maximum(
+        np.clip(np.multiply(fuel, prob_multipliers), 0, 1), 
+        burning
+    )
+    # Compute the new state by sampling probabilities at each cell
     new_burning = np.zeros((ny, nx))
-    for y in range(ny):
-        for x in range(nx):
-            new_burning[y, x] = 1 if np.random.random() < prob[y, x] else 0
+    random_matrix = np.random.random((ny, nx))
+    new_burning = (random_matrix < prob).astype(float)
     X[7, :, :] = new_burning
     return X
 
