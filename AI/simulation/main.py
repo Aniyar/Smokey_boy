@@ -62,9 +62,8 @@ def step(X):
                     probability_multiplier *= (1 + wind_speed[y, x])/20
 
                     # Slope
-                    m = -(altitude[y+dy, x+dx] - altitude[y, x]) / \
+                    m = (altitude[y, x] - altitude[y+dy, x+dx]) / \
                         (np.abs(np.linalg.norm(neighbour)) * 10)
-                    # Why the heck do we need a minus sign??!
                     probability_multiplier *= (1+m) if m > 0 else (1/(1-m))
 
                     # Road
@@ -73,7 +72,7 @@ def step(X):
                     # Humidity
                     # probability_multiplier = 1 / (probability_multiplier - (probability_multiplier * humidity[y, x]))
                     probability_multiplier = 1 / (1 + 0.7 * humidity[y, x])
-                    # Increase the probability of burning
+            # Compute the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
             # Some calculations that will change the probabilities
