@@ -31,7 +31,7 @@ def init_del_loma():
 
   # ====== Init wind layers =====
   wind_speed = np.ones((ny, nx)) * 5 # Uniform speed
-  wind_direction = np.ones((ny, nx)) * 90 # Blowing East
+  wind_direction = np.ones((ny, nx)) * 180 # Blowing East
   grid[1,:,:] = wind_speed
   grid[2,:,:] = wind_direction
 
@@ -96,7 +96,7 @@ def init_del_loma_smol():
 
   # ====== Init wind layers =====
   wind_speed = np.ones((ny, nx)) * 5  # Uniform speed
-  wind_direction = np.ones((ny, nx)) * 90  # Blowing East
+  wind_direction = np.ones((ny, nx)) * 45  # Blowing South
   grid[1, :, :] = wind_speed
   grid[2, :, :] = wind_direction
 
@@ -131,5 +131,5 @@ def init_del_loma_smol():
   return grid
 
 if __name__ == '__main__':
-  init_del_loma()
+  init_del_loma_smol()
 
