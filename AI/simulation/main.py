@@ -33,51 +33,7 @@ def step(X):
     precipitation = X[5, :, :]
     altitude = X[6, :, :]
     burning = X[7, :, :]
-    
-    def fire_boost(location):
-        neighbourhood = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1),
-                     (1, 0), (1, 1)]
-        x, y = location
-            # Wind Conversion
-        def wind_dir_func(num):
-            if num > 22.5 and num <= 67.5:
-                wind_dir = (1, -1) # North east
-            elif num > 67.5 and num <= 112.5:
-                wind_dir = (0, -1) # North
-            elif num > 112.5 and num <= 157.5:
-                wind_dir = (-1, -1) # North west
-            elif num > 157.5 and num <= 202.5:
-                wind_dir = (-1, 0) # West
-            elif  num > 202.5 and num <= 247.5:
-                wind_dir = (-1, 1) # South west
-            elif num > 247.5 and num <= 292.5:
-                wind_dir = (0, 1) # South
-            elif num > 292.5 and num <= 337.5:
-                wind_dir = (1, 1)  # South east
-            else:
-                wind_dir = (1, 0) # East
-            return wind_dir
-        # Wind Compare
-        def wind_boost():
-            probability_multiplier = 0
-            wx, wy = wind_dir_func(90) # Wind blowing north
-            for neighbour in neighbourhood:
-                dx, dy = neighbour
-                neighbour_on_fire = burning[y + dy, x + dx]
-                if neighbour_on_fire == 1:
-                    if dx == wx and dy == wy:
-                        probability_multiplier = 1.2
-                    elif dx == -wx and dy == -wy:
-                        probability_multiplier = 2
-                    elif (dx == -wx or dy == -wy) and (wx == 0 or wy == 0 or dx == 0 or dy == 0):
-                        probability_multiplier = 1.75
-                    elif (dx == wx or dy == wy) and (wx == 0 or wy == 0 or dx == 0 or dy == 0):
-                        probability_multiplier = 1.25
-                    else:
-                        probability_multiplier = 1.3
-                return probability_multiplier
-        return wind_boost()       
-                        
+                    
     # Probability that there will be a fire
     prob = np.zeros((ny, nx))
     for y in range(1, ny - 1):
