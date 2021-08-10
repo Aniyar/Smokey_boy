@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 from matplotlib.colors import LinearSegmentedColormap
 
-from grid_init import init_del_loma
+from grid_init import init_del_loma_smol
 from tqdm import tqdm
 
 
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     fire_cmap = LinearSegmentedColormap.from_list('fire_cmap', colors, N=10)
 
     # Init the grid
-    X = init_del_loma()
+    X = init_del_loma_smol()
 
     # Start a fire at (44,44)
     X[7, 44, 44] = 1
