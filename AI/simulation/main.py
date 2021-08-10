@@ -33,13 +33,13 @@ def step(X):
     precipitation = X[5, :, :]
     altitude = X[6, :, :]
     burning = X[7, :, :]
-                    
+
     # Probability that there will be a fire
     prob = np.zeros((ny, nx))
     for y in range(1, ny - 1):
         for x in range(1, nx - 1):
             neighbourhood = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1),
-                     (1, 0), (1, 1)]
+                             (1, 0), (1, 1)]
             probability_multiplier = 0
             for neighbour in neighbourhood:
                 dx, dy = neighbour
@@ -50,21 +50,29 @@ def step(X):
                     # Slightly lower probability increase if the burning neighbour is diagnonal
                     probability_multiplier *= 1 if np.abs(dy) + np.abs(
                         dx) < 2 else 0.7
-                    
+
                     # Wind impact
-                    probability_multiplier *=  1 + np.dot([-dy, -dx]/np.linalg.norm(neighbour), [-np.cos(np.radians(wind_direction[y + dy, x + dx])), np.sin(np.radians(wind_direction[y + dy, x + dx]))])
+                    probability_multiplier *= 1 + np.dot(
+                        [-dy, -dx]/np.linalg.norm(neighbour),
+                        [
+                            -np.cos(np.radians(wind_direction[y + dy, x + dx])),
+                            np.sin(np.radians(wind_direction[y + dy, x + dx]))
+                        ]
+                    )
                     probability_multiplier *= (1 + wind_speed[y, x])/20
-                    
+
                     # Slope
-                    m = -(altitude[y+dy, x+dx] - altitude[y,x])/(np.abs(np.linalg.norm(neighbour)) * 10)
-                    probability_multiplier *=  (1+m) if m > 0 else (1/(1-m)) # Why the heck do we need a minus sign??!
-                    
+                    m = -(altitude[y+dy, x+dx] - altitude[y, x]) / \
+                        (np.abs(np.linalg.norm(neighbour)) * 10)
+                    # Why the heck do we need a minus sign??!
+                    probability_multiplier *= (1+m) if m > 0 else (1/(1-m))
+
                     # Road
-                    # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else  
-                    
+                    # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else
+
                     # Humidity
                     # probability_multiplier = 1 / (probability_multiplier - (probability_multiplier * humidity[y, x]))
-                    probability_multiplier = 1 / (1+ 0.7 * humidity[y, x])
+                    probability_multiplier = 1 / (1 + 0.7 * humidity[y, x])
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
@@ -77,8 +85,6 @@ def step(X):
             new_burning[y, x] = 1 if np.random.random() < prob[y, x] else 0
     X[7, :, :] = new_burning
     return X
-
-
 
 
 if __name__ == '__main__':
@@ -100,7 +106,7 @@ if __name__ == '__main__':
 
     for i in tqdm(range(30)):
         fuel = X[6, :, :]
-        burning = X[7, :, :] 
+        burning = X[7, :, :]
         map_layer = ax.imshow(fuel, cmap='jet')
         fire_layer = ax.imshow(burning, cmap=fire_cmap)
         ims.append([map_layer, fire_layer])
