@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request
 from flask.wrappers import Response
 import requests
-import folium
+from models.InventoryModel import InventoryModel
+from db import DB
 
 
+db = DB()
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,6 +30,17 @@ def enter_coords():
 def map():
     if request.method == 'GET':
         return render_template('index.html')
+
+
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory():
+    im = InventoryModel(db.get_connection())
+    im.init_table()
+    if request.method == 'GET':
+        return render_template('inventory.html', inventory=im.get_all())
+    elif request.method == 'POST':
+        name, rclass, availability, location, description = request.form["name"], request.form["classselect"], request.form["availabilityselect"], request.form["location"], request.form["description"]
+        im.insert(name, rclass, availability, location, description)
 
 
 
