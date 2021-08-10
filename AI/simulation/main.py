@@ -67,7 +67,7 @@ def step(X):
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
-            # Some stuff that will change the probabilities
+            # Some calculations that will change the probabilities
             pass
     # Compute the new state
     new_burning = np.zeros((ny, nx))
