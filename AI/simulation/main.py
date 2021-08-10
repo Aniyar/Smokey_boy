@@ -9,21 +9,21 @@ from tqdm import tqdm
 
 def step(X):
     """
-  Grid layers
+    Grid layers
 
-  1. Value [0,inf) - real [Done]
-  2. Wind Speed [0,inf) - real [Done]
-  3. Wind Direction [0,360) - real [Done]
-  4. Fuel [0,1] - real [Done]
-  5. Humidity [0, 100] - real [Done]
-  6. Precipitation [0,inf) - real [Done]
-  7. Altitude [0,inf) - real [Done]
-  8. Burning {0,1} - boolean 
-  9. road [0,1] - boolean
-  10. Interventions [0, number of interventions] - discrete
+    1. Value [0,inf) - real [Done]
+    2. Wind Speed [0,inf) - real [Done]
+    3. Wind Direction [0,360) - real [Done]
+    4. Fuel [0,1] - real [Done]
+    5. Humidity [0, 100] - real [Done]
+    6. Precipitation [0,inf) - real [Done]
+    7. Altitude [0,inf) - real [Done]
+    8. Burning {0,1} - boolean 
+    9. road [0,1] - boolean
+    10. Interventions [0, number of interventions] - discrete
 
-  1 step = 7 seconds
-  """
+    1 step = 7 seconds
+    """
     ny, nx = X.shape[1:]
     # Current state
     wind_speed = X[1, :, :]
