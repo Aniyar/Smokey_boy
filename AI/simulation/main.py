@@ -53,6 +53,7 @@ def step(X):
                     # Wind impact
                     probability_multiplier *=  1 + np.dot([-dy, -dx]/np.linalg.norm(neighbour), [-np.cos(np.radians(wind_direction[y + dy, x + dx])), np.sin(np.radians(wind_direction[y + dy, x + dx]))])
                     probability_multiplier *= (1 + wind_speed[y, x])/20
+                    probability_multiplier *= 1 / (1 + humidity[y, x])
                     # Increase the probability of burning
             prob[y, x] = max(np.clip(
                 fuel[y, x] * probability_multiplier, 0, 1), burning[y, x])
