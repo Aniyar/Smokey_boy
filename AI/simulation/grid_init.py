@@ -18,7 +18,6 @@ def init_del_loma():
     7. Altitude [0,inf) - real [Done]
     8. Burning {0,1} - boolean 
     9. road {0,1} - boolean
-    10. Interventions [0, number of interventions] - discrete
     """
 
     # ==== Init grid =====
@@ -83,7 +82,6 @@ def init_del_loma_smol():
     7. Altitude [0,inf) - real [Done]
     8. Burning {0,1} - boolean 
     9. road {0,1} - boolean
-    10. Interventions [0, number of interventions] - discrete
     """
 
     # ==== Init grid =====

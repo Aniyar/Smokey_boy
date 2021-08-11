@@ -15,11 +15,17 @@ if __name__ == '__main__':
     # Init the grid
     X = init_del_loma_smol()
 
+    # Init the interventions
+    active_interventions = []
+
     # Start a fire at (150,150)
     X[7, 150, 150] = 1
+
+    # Create a fireline
     fl = FireLine((0, 150),(199, 140))
-    X = fl.implement(X)
-    
+    active_interventions.append(fl)
+
+    # Create animation
     fig = plt.figure(figsize=(25/3, 6.25))
     ax = fig.add_subplot(111)
     ax.set_axis_off()
@@ -33,6 +39,9 @@ if __name__ == '__main__':
         fire_layer = ax.imshow(burning, cmap=fire_cmap)
         ims.append([map_layer, fire_layer])
         X = step(X)
+        # Update with respect to interventions
+        for inter in active_interventions:
+            X = inter.step(X)
 
     # Interval between frames (ms).
     anim = animation.ArtistAnimation(fig, ims, interval=100)

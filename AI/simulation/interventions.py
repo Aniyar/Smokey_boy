@@ -1,4 +1,3 @@
-from matplotlib.pyplot import grid
 import numpy as np
 
 
@@ -11,7 +10,7 @@ class FireLine(Intervention):
         self.start = start
         self.end = end
 
-    def implement(self, X):
+    def step(self, X):
         _, ny, nx = X.shape
         mask = np.ones((ny, nx))
         x1, y1 = self.start
@@ -38,7 +37,7 @@ class FireLine(Intervention):
             for i in range(abs(dx) + 1):
                 y_new = int(np.round(y1 + i * dy / dx))
                 if y_new != y_prev:
-                    mask[y_new, x_start + i - 1: x_start + i + 1] = 0
+                    mask[y_new, x_start + i - 1 : x_start + i + 1] = 0
                 else:
                     mask[y_new, x_start + i] = 0
         X[3, :, :] = np.multiply(X[3, :, :], mask)
@@ -46,7 +45,7 @@ class FireLine(Intervention):
 
 
 # - Fire fighters (needed for any other intervention to work)
-# - Fireline (turns square in to square wil no fule)
+# - Fireline (turns square in to square wil no fuel)
 # - Fire plane retardant (spews flame retardant, slows down how fast the flame spreads so will effect the effect this square has on others, has a lower chance of causing - those adjacent to it to go on fire)
 # - Fire plane water (increases precipitation of the square)
 # smoke jumper
@@ -56,19 +55,21 @@ class FireLine(Intervention):
 # - water tender
 
 class TruckTeam():
-    def __init__(self):
+    def __init__(self, start):
         self.neighbourhood = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1),
                               (1, 0), (1, 1)]
+        self.start = start
+        #self.end = 0
 
-    def step(self):
-        x1, y1 = start
+    def step(self, end):
+        x1, y1 = self.start
         x2, y2 = end
         time_sec = sqrt((20 * (max(x1, x2) - min(x1, x2)) ** 2) +
                         (20 * (max(y1, y2) - min(y1, y2)) ** 2)) / 27
         return time_sec
 
     def implement(self, end, X):
-        x1, y1 = start
+        x1, y1 = self.start
         x2, y2 = end
         self.Fighters -= self.En_fight
         precipitation = X[5, :, :]
