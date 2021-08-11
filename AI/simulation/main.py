@@ -65,8 +65,8 @@ def step(X):
                         if prob_multipliers[y, x] == -1:
                             prob_multipliers[y, x] = 1
                         # Slightly lower probability increase if the burning neighbour is diagnonal
-                        prob_multipliers[y, x] *= 1 if np.abs(dy) + np.abs(
-                            dx) < 2 else 0.7
+                        prob_multipliers[y, x] *= 1.2 if np.abs(dy) + np.abs(
+                            dx) < 2 else 1.14
 
                         # Wind impact
                         prob_multipliers[y, x] *= 1 + np.dot(
@@ -119,10 +119,10 @@ if __name__ == '__main__':
 
     ims = []
 
-    for i in tqdm(range(30)):
-        fuel = X[6, :, :]
+    for i in tqdm(range(100)):
+        fuel = X[3, :, :]
         burning = X[7, :, :]
-        map_layer = ax.imshow(fuel, cmap='jet')
+        map_layer = ax.imshow(fuel, cmap='PiYG')
         fire_layer = ax.imshow(burning, cmap=fire_cmap)
         ims.append([map_layer, fire_layer])
         X = step(X)
