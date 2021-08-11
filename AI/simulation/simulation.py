@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def step(X):
     """
     Grid layers
