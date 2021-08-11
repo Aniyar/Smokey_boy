@@ -26,7 +26,7 @@ if __name__ == '__main__':
     active_interventions.append(fl)
 
     # Create animation
-    fig = plt.figure(figsize=(25/3, 6.25))
+    fig = plt.figure(figsize=(25/3, 6.25));
     ax = fig.add_subplot(111)
     ax.set_axis_off()
 
