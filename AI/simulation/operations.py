@@ -7,17 +7,18 @@ class InventoryManager:
 
     def request_resources(self, intervention):
         for key in intervention.resources:
+            if self.inventory[key] - intervention.resources[key] < 0:
+                return False
+        
+        for key in intervention.resources:
             self.inventory[key] -= intervention.resources[key]
-            
-                # remove the resources that have just been allocated AND MAKE SURE THAT WE HAVE ENOUGH
-        # self.resources -= intervention.resources
-        # IF THERE IS A -ve NUMBER OF RESOURCES, DO NOT ALLOW THE ALLOCATION
+        
+        return True
+    
 
     def delete_intervention(self, intervention):
         for key in intervention.resources:
             self.inventory[key] += intervention.resources[key]
-
-    # same thing but instead deallocate the resources and return to pool
 
 
 # A CENSUS OF RESOURCES, IF / WHERE THE RESOURCES ARE ALLOCATED (i.e. which specific intervention), A FUNCTION TO ADD AN INTERVENTION TO THE LIST
