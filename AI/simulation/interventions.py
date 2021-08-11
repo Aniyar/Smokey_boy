@@ -28,11 +28,7 @@ class FireLine(Intervention):
                 # Check if the x coordinate has changed - if so, plug holes
                 x_new = int(np.round(x1 + i * dx / dy))
                 if x_new != x_prev:
-<<<<<<< HEAD
-                    mask[y_start + i - 1: y_start + i + 1, x_new] = 0
-=======
                     mask[y_start + i - 1 : y_start + i + 1, x_new] = 0
->>>>>>> daae4c2de79313c847f8c35ed4b218526792c373
                 else:
                     mask[y_start + i, x_new] = 0
         else:
@@ -42,7 +38,6 @@ class FireLine(Intervention):
             for i in range(abs(dx) + 1):
                 y_new = int(np.round(y1 + i * dy / dx))
                 if y_new != y_prev:
-<<<<<<< HEAD
                     mask[y_new, x_start + i - 1: x_start + i + 1] = 0
                 else:
                     mask[y_new, x_start + i] = 0
@@ -83,10 +78,3 @@ class TruckTeam():
             precipitation[y2 + yn, x2 + xn] *= 2
         X[5, :, :] = precipitation
         return X
-=======
-                    mask[y_new, x_start + i - 1 : x_start + i + 1] = 0
-                else:
-                    mask[y_new, x_start + i] = 0
-        X[3, :, :] = np.multiply(X[3, :, :], mask)
-        return X
->>>>>>> daae4c2de79313c847f8c35ed4b218526792c373
