@@ -87,7 +87,7 @@ def step(X):
                         # Road
                         # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else
 
-                # Humidity
+    # Humidity
     prob_multipliers *= 1 / (1 + 0.007 * humidity)
     # Compute the probability of burning
     prob = np.maximum(
