@@ -61,3 +61,10 @@ class InventoryModel:
                             WHERE id = ?;''', (new_ava, id))
         # cursor.close()
         self.connection.commit()
+
+
+    def delete(self, item_id):
+        cursor = self.connection.cursor()
+        cursor.execute('''DELETE FROM inventory WHERE id = ?''', (str(item_id),))
+        cursor.close()
+        self.connection.commit()

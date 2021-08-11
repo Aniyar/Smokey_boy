@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask.wrappers import Response
 import requests
 from models.InventoryModel import InventoryModel
@@ -43,7 +43,11 @@ def inventory():
         im.insert(name, rclass, availability, location, description)
 
 
-
+@app.route('/delete_item/<int:item_id>', methods=['GET'])
+def delete_news(item_id):
+    im = InventoryModel(db.get_connection())
+    im.delete(item_id)
+    return redirect("/inventory")
 
 if __name__ == '__main__':
     app.run(debug = True)   
