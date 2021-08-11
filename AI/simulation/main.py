@@ -15,7 +15,7 @@ if __name__ == '__main__':
     # Init the grid
     X = init_del_loma_smol()
 
-    # Start a fire at (44,44)
+    # Start a fire at (150,150)
     X[7, 150, 150] = 1
     fl = FireLine((0, 150),(199, 140))
     X = fl.implement(X)
