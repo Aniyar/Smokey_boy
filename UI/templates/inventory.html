@@ -2,8 +2,17 @@
 {% block title %} Inventory {% endblock %}
 {% block head %} {{ super() }} {% endblock %}
 {% block body %}
+<h1 style="text-align:center;">Inventory</h1>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add resourse</button>
+<div class="center">
+    <!-- Search form -->
+    <form class="form-inline d-flex justify-content-center md-form form-sm mt-0">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control form-control-sm ml-3 w-175" type="text" placeholder="Search" aria-label="Search">
+    </form>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add resourse</button>
+</div>
+
 <div class="row">
     <div class="col-sm-8">
         <div class="container-fluid">
