@@ -3,10 +3,9 @@ class Intervention:
     pass
 
 class FireLine(Intervention):
-    def __init__(self, start, end, thickness):
+    def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.thickness = thickness
 
     def implement(self, X):
         _, ny, nx = X.shape
@@ -14,18 +13,10 @@ class FireLine(Intervention):
         x1, y1 = self.start
         x2, y2 = self.end
         locations = [(x1, y1)]
-        while(x1 != x2 or y1 != y2):
-            if x1 != x2:
-                x1 += 1
-            if y1 != y2:
-                y1 += 1
-            #print("x1: {} | y1: {}".format(x1, y1))
-            locations.append((x1, y1))
-            
-        for x, y in locations:
-            grid[y, x] = 0
-        
-        return grid
-    
-fl = FireLine((0,0), (5, 5), 1)
-print(fl.implement(np.zeros((1, 10, 10))))
+        grid[y1, x1] = 0
+        slope = (y2 - y1) / (x2 - x1)
+        xs = min(x1, x2)
+        for i in range(abs(x1 - x2) + 1):
+            grid[int(y1 + i * slope), xs + i] = 0
+        X[3,:, :] = np.multiply(X[3,:, :], grid)
+        return X
