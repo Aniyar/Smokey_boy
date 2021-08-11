@@ -13,8 +13,9 @@ class InventoryManager:
         # self.resources -= intervention.resources
         # IF THERE IS A -ve NUMBER OF RESOURCES, DO NOT ALLOW THE ALLOCATION
 
-    def delete(self, intervention):
-        pass
+    def delete_intervention(self, intervention):
+        for key in intervention.resources:
+            self.inventory[key] += intervention.resources[key]
 
     # same thing but instead deallocate the resources and return to pool
 
@@ -28,4 +29,5 @@ if __name__ == '__main__':
     print("TEST")
     print(im.inventory)
     im.request_resources(FireLine((0,0), (2,2)))
+    im.delete_intervention(FireLine((0,0), (2,2)))
     print(im.inventory)
