@@ -24,7 +24,7 @@ def init_del_loma():
     grid = np.zeros((10, ny, nx))
 
     # ===== Init value layer =====
-    with Image.open('value.png') as im:
+    with Image.open('AI/simulation/media/value.png') as im:
         value_layer = np.asarray(im)
         value_layer = value_layer[:, :, 1]
         grid[0, :, :] = value_layer
@@ -36,7 +36,7 @@ def init_del_loma():
     grid[2, :, :] = wind_direction
 
     # ======= Init fuel layer =========
-    with Image.open("vegetation.png") as im:
+    with Image.open("AI/simulation/media/vegetation.png") as im:
         fuel = np.asarray(im)[:, :, 1] / 255
         grid[3, :, :] = fuel
 
@@ -52,13 +52,13 @@ def init_del_loma():
 
     height_scale = 5.  # how many meters does an increase of 1 unit represent?
     # Load altitude map
-    with Image.open('height.png') as im:
+    with Image.open('AI/simulation/media/height.png') as im:
         im = im.convert('L')
         heightmap = np.asarray(im) * height_scale
         grid[6, :, :] = heightmap
 
     # ======= Init road layer =======
-    with Image.open('roads.png') as im:
+    with Image.open('AI/simulation/media/roads.png') as im:
         road_layer = np.asarray(im)
         road_layer = road_layer[:, :, 1]
         grid[8, :, :] = road_layer
@@ -88,7 +88,7 @@ def init_del_loma_smol():
     grid = np.zeros((10, ny, nx))
 
     # ===== Init value layer =====
-    with Image.open('value.png') as im:
+    with Image.open('AI/simulation/media/value.png') as im:
         value_layer = np.asarray(im)
         value_layer = value_layer[200:, 200:, 1]
         grid[0, :, :] = value_layer
@@ -100,7 +100,7 @@ def init_del_loma_smol():
     grid[2, :, :] = wind_direction
 
     # ======= Init fuel layer =========
-    with Image.open("vegetation.png") as im:
+    with Image.open("AI/simulation/media/vegetation.png") as im:
         fuel = np.asarray(im)[200:, 200:, 1] / 255
         grid[3, :, :] = fuel
 
@@ -116,13 +116,13 @@ def init_del_loma_smol():
 
     height_scale = 5.  # how many meters does an increase of 1 unit represent?
     # Load altitude map
-    with Image.open('height.png') as im:
+    with Image.open('AI/simulation/media/height.png') as im:
         im = im.convert('L')
         heightmap = np.asarray(im) * height_scale
         grid[6, :, :] = heightmap[200:, 200:]
 
     # ======= Init road layer =======
-    with Image.open('roads.png') as im:
+    with Image.open('AI/simulation/media/roads.png') as im:
         road_layer = np.asarray(im)
         road_layer = road_layer[200:, 200:, 1]
         grid[8, :, :] = road_layer
