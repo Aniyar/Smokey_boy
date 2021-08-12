@@ -49,5 +49,12 @@ def delete_news(item_id):
     im.delete(item_id)
     return redirect("/inventory")
 
+
+@app.route('/plan', methods=['GET'])
+def plan():
+    if request.method == 'GET':
+        return render_template('map_interventions.html')
+
+
 if __name__ == '__main__':
     app.run(debug = True)   

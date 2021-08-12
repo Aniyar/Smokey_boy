@@ -20,7 +20,6 @@ class InventoryModel:
 
     def insert(self, name, Class, availability, location, description=""):
         cursor = self.connection.cursor()
-        print(name, Class, availability, location, description)
         cursor.execute('''INSERT INTO inventory 
                           (name, class, availability, location, description) 
                           VALUES (?,?,?,?,?)''''''''''', (name, Class, availability, location, description))
