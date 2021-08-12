@@ -16,8 +16,9 @@ class BullDozer(Resource):
 
 
 class FireFighter(Resource):
-    def __init__(self):
+    def __init__(self, intervention):
         super('firefighter')
+        self.intervention = intervention
 
 
 class FirePlane(Resource):
