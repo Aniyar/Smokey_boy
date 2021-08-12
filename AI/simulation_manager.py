@@ -52,4 +52,6 @@ class SimulationManager:
 
 if __name__ == '__main__':
     manager = SimulationManager()
-    manager.run_simulation(init_del_loma_smol(), [], visualise=True)
+    initial_state = init_del_loma_smol()
+    initial_state[7, 150, 150] = 1
+    manager.run_simulation(initial_state, [], visualise=True)
