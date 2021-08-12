@@ -5,20 +5,48 @@
 5. Water is a resource
 6. Bulldozer inherits fire lines and draws them faster
 
-1. Modify the fire line class (Speed, Effecivness) to inherit from other classes:
- a) Manual fire line => Slower but less effective than budlozzers
- b) Bulldozers => Faster and most effective
+1. [Base Class] Modify the fire line class (Speed, Effecivness, Resources subtraction) to inherit from other classes:
+ Sub classes:
+ a) Manual fire line => Slower but less effective than budlozzers | speed depends on the people amount
+ b) Bulldozers => Faster and most effective | speed depends on buldozzers amount
  c) Plane retardant => Fastes but least effective
-2. Any intervention class should use resources
+
+[DONE]
+2. [Base Class] Modify the water splash class (effecitveness, Resources subtraction) to inherit from other classes:
+Sub classes:
+    b) Manual water splash => Slowest but most effective | speed depends on people amount
+    a) Fire engine => Faster but less effecitve | speed depends on fire engines amount #remaining water amount
+    b) Helicopters => Fastes but least effective
+
+3. How to do the speed, effecitveness and resources subtraction
+    - the main class will know which sub class called it and:
+    1. Speed[update i more than one time with each call]
+    2. Effecivness[then modify the probability modifier]
+    3. Resources[passed from the sub class]
+
+4. Any intervention class should use resources
     a) Fire lines:
         i. Manual fire line => Fire fighters
         ii. Buldozzers => Fire fighters, buldozzers
-        iii. Plane retardant => Fire fighters, Planes, Ratardant
+        iii. Fire plane => Fire fighters, Planes, Ratardant
     b) Water splashers:
-        i. Fire truck => Fire fighters, Water, 
+        i. Manual splasher => Fire fighters, Water
+        ii. Fire engine => Fire fighters, Water, fire engines
+        iii. Helicopters => Fire fighters, Water, helicopters
 
-
+5. Inhericance
+    a) Base classes inherits from interventions
+    b) Sub classes inherits from base classes
 
 #TO-Do for future
 - Gassoline
 - Fire fighters specialization
+
+
+class FireEngine(Resource):
+class BullDozer(Resource):
+class FireFighter(Resource):
+class FirePlane(Resource):
+class FireHelicopter(Resource):
+class FireRetardant(Resource):
+class Water(Resource):
