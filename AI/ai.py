@@ -8,7 +8,7 @@ def fitness(X):
     return -np.sum(X[7, :, :])
 
 if __name__ == '__main__':
-    N = 3
+    N = 5
     simulation = SimulationManager()
     # Create initial state
     initial_state = init_del_loma_smol()
@@ -25,12 +25,12 @@ if __name__ == '__main__':
     ] for i in range(N)]
     # Test intervention plans
     final_states = [
-        simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), plan, steps=30, visualise=True)
+        simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), deepcopy(plan), steps=30, visualise=False)
         for plan in intervention_plans
     ]
     # Evaluate the final states
     final_scores = [fitness(state) for state in final_states]
     best, worst = np.argmax(final_scores), np.argmin(final_scores)
     print(best, worst)
-    simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), intervention_plans[best], steps=30, visualise=True)
-    simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), intervention_plans[worst], steps=30, visualise=True)
+    simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), deepcopy(intervention_plans[best]), steps=30, visualise=True)
+    simulation.run_simulation(deepcopy(initial_state), deepcopy(available_resources), deepcopy(intervention_plans[worst]), steps=30, visualise=True)
