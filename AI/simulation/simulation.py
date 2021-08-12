@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def step(X):
     """
     Grid layers
@@ -77,15 +78,14 @@ def step(X):
                             (np.abs(np.linalg.norm(neighbour)) * 10)
                         prob_multipliers[y, x] *= (1+m) if m > 0 else (1/(1-m))
 
-                        # Road
-                        # d = np.linalg.norm((y, x)-(y+dy, x+dx)) if road_layer[y + dy, x + dx] == 1 else
-
+    # Precipitation
+    burning -= precipitation / 30 # Assume 30mm of rain will kill the fire
     # Humidity
     prob_multipliers *= 1 / (1 + 0.007 * humidity)
     # Compute the probability of burning
     prob = np.maximum(
         np.clip(np.multiply(fuel, prob_multipliers), 0, 1),
-        burning
+        np.clip(burning, 0, 1)
     )
     # Compute the new state by sampling probabilities at each cell
     new_burning = np.zeros((ny, nx))
