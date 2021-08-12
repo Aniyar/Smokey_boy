@@ -25,7 +25,7 @@ class SimulationManager:
         # Run simulation
         if visualise:
             # Create animation
-            fig = plt.figure(figsize=(25/3, 6.25));
+            fig = plt.figure(figsize=(25/3, 6.25))
             ax = fig.add_subplot(111)
             ax.set_axis_off()
             ims = []
