@@ -5,7 +5,8 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from grid_init import init_del_loma_smol
 from simulation import step
-from interventions import FireLine
+from interventions import BullDozedFireLine
+from interventions import TruckTeam
 
 if __name__ == '__main__':
     # Set up colormap
@@ -22,8 +23,12 @@ if __name__ == '__main__':
     X[7, 150, 150] = 1
 
     # Create a fireline
-    fl = FireLine((0, 150),(199, 140))
+    fl = BullDozedFireLine((0, 150),(199, 140))
     active_interventions.append(fl)
+
+    #send fire truck
+    tk = TruckTeam((157,145), (157,145))
+    active_interventions.append(tk)
 
     # Create animation
     fig = plt.figure(figsize=(25/3, 6.25));

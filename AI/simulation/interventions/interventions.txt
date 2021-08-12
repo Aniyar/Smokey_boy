@@ -1,0 +1,24 @@
+1. Fire fighters => Resources
+2. Plane retardant inherits the fire line with decreased fuel
+3. Helicopter inherits water splash
+4. Hydrant is water splash
+5. Water is a resource
+6. Bulldozer inherits fire lines and draws them faster
+
+1. Modify the fire line class (Speed, Effecivness) to inherit from other classes:
+ a) Manual fire line => Slower but less effective than budlozzers
+ b) Bulldozers => Faster and most effective
+ c) Plane retardant => Fastes but least effective
+2. Any intervention class should use resources
+    a) Fire lines:
+        i. Manual fire line => Fire fighters
+        ii. Buldozzers => Fire fighters, buldozzers
+        iii. Plane retardant => Fire fighters, Planes, Ratardant
+    b) Water splashers:
+        i. Fire truck => Fire fighters, Water, 
+
+
+
+#TO-Do for future
+- Gassoline
+- Fire fighters specialization

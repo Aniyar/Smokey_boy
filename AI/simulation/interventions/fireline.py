@@ -3,11 +3,13 @@ import numpy as np
 from . import Intervention
 
 class FireLine(Intervention):
-    def __init__(self, start, end):
-        super().__init__({'bulldozer': 1})
+    def __init__(self, start, end, resources, speed, fuel_reduction):
+        super().__init__(resources)
         self.start = start
         self.end = end
         self.i = 0
+        self.speed = speed
+        self.fuel_reduction = fuel_reduction
 
     def step(self, X):
         _, ny, nx = X.shape
@@ -42,3 +44,13 @@ class FireLine(Intervention):
         X[3, :, :] = np.multiply(X[3, :, :], mask)
         self.i += 1
         return X
+
+class BullDozedFireLine(FireLine):
+    def __init__(self, start, end):
+        super().__init__(start, end, {'bulldozer': 1}, 10, 1)
+
+class ManualFireLine(FireLine):
+    def __init__(self, start, end, no_people):
+        speed = no_people
+        super().__init__(start, end, {'people': no_people}, speed , 1)
+
