@@ -6,6 +6,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from grid_init import init_del_loma_smol
 from simulation import step
 from interventions import BullDozedFireLine
+from operations import OperationsManager
 
 if __name__ == '__main__':
     # Set up colormap
@@ -15,15 +16,18 @@ if __name__ == '__main__':
     # Init the grid
     X = init_del_loma_smol()
 
-    # Init the interventions
-    active_interventions = []
+    # Init the inventory manager
+    manager = OperationsManager({
+        'bulldozer': 3
+    })
 
     # Start a fire at (150,150)
     X[7, 150, 150] = 1
 
     # Create a fireline
-    fl = BullDozedFireLine((0, 150),(199, 140))
-    active_interventions.append(fl)
+    for i in range(10):
+        fl = BullDozedFireLine((10 * i, 150),(199, 140))
+        manager.request_intervention(fl)
 
     # Create animation
     fig = plt.figure(figsize=(25/3, 6.25));
@@ -40,7 +44,7 @@ if __name__ == '__main__':
         ims.append([map_layer, fire_layer])
         X = step(X)
         # Update with respect to interventions
-        for inter in active_interventions:
+        for inter in manager.interventions.keys():
             X = inter.step(X)
 
     # Interval between frames (ms).
