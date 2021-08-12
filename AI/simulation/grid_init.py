@@ -89,7 +89,7 @@ def init_del_loma_smol():
 
     # ===== Init value layer =====
     with Image.open('AI/simulation/media/value.png') as im:
-        value_layer = np.asarray(im)
+        value_layer = np.asarray(im) + 0.1
         value_layer = value_layer[200:, 200:, 1]
         grid[0, :, :] = value_layer
 

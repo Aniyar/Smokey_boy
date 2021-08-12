@@ -1,4 +1,4 @@
-from inventory import InventoryManager
+from .inventory import InventoryManager
 
 class OperationsManager:
     def __init__(self, resources):

@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 from matplotlib.colors import LinearSegmentedColormap
 
-from grid_init import init_del_loma_smol
-from simulation import step
-from interventions import BullDozedFireLine
-from operations import OperationsManager
+from .grid_init import init_del_loma_smol
+from .simulation import step
+from .interventions import BullDozedFireLine
+from .operations import OperationsManager
 
 if __name__ == '__main__':
     # Set up colormap
