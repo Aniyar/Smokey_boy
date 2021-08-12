@@ -13,3 +13,31 @@ class FireEngine(Resource):
 class BullDozer(Resource):
     def __init__(self):
         super('bulldozer')
+
+
+class FireFighter(Resource):
+    def __init__(self):
+        super('firefighter')
+
+
+class FirePlane(Resource):
+    def __init__(self, retardant_v):
+        super('fire_plane')
+        self.retardant_v = retardant_v
+
+
+class FireHelicopter(Resource):
+    def __init__(self, water_v):
+        super('fire_helicopter')
+        self.water_v = water_v
+
+class FireRetardant(Resource):
+    def __init__(self, volume):
+        super('retardant')
+        self.volume = volume
+
+
+class Water(Resource):
+    def __init__(self, volume):
+        super('water')
+        self.volume = volume
