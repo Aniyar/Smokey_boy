@@ -5,10 +5,10 @@ import numpy as np
 from copy import deepcopy
 
 
-def fitness(X):
+def fitness(X): 
     return -np.sum(X[7, :, :])
 
-def frick(a, b):
+def frick(a, b): #<= NSFW >_>
     return a + b
 
 if __name__ == '__main__':
@@ -34,18 +34,21 @@ if __name__ == '__main__':
     for generation in range(generations):
         # Test intervention plans
         final_states = [
-            simulation.run_simulation(
-                deepcopy(initial_state), 
-                deepcopy(available_resources),
-                deepcopy(plan),
-                steps=30,
-                visualise=False
-            )
+            [
+                simulation.run_simulation(
+                    deepcopy(initial_state), 
+                    deepcopy(available_resources),
+                    deepcopy(plan),
+                    steps=30,
+                    visualise=False
+                )
+                for i in range(3)
+            ]
             for plan in population
         ]
         # Evaluate the final states
-        final_scores = [(i, fitness(state))
-                        for i, state in enumerate(final_states)]
+        final_scores = [(i, np.mean([fitness(state) for state in states]))
+                        for i, states in enumerate(final_states)]
         # Generate rankings
         final_score_rankings = sorted(
             final_scores, 
@@ -84,6 +87,14 @@ if __name__ == '__main__':
     )
     # Get the best one
     best_plan = final_score_rankings[0][0]
+
+    simulation.run_simulation(
+        deepcopy(initial_state),
+        deepcopy(available_resources), 
+        [],
+        steps=30,
+        visualise=True
+    )
 
     simulation.run_simulation(
         deepcopy(initial_state),
