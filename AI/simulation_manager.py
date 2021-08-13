@@ -4,20 +4,19 @@ from matplotlib import animation
 from matplotlib.colors import LinearSegmentedColormap
 
 from .simulation import step, init_del_loma_smol, OperationsManager
+from .simulation.interventions import *
 
 class SimulationManager:
 
     def __init__(self):
         pass
 
-    def run_simulation(self, initial_state, interventions, steps=30, visualise=False):
+    def run_simulation(self, initial_state, available_resources, interventions, steps=30, visualise=False):
         # Set up colormap
         colors = [(1, 0, 0, 0), (1, 1, 0, 1)]
         fire_cmap = LinearSegmentedColormap.from_list('fire_cmap', colors, N=10)
         # Init the inventory manager
-        manager = OperationsManager({
-            'bulldozer': 3
-        })
+        manager = OperationsManager(available_resources)
         # Create interventions
         for intervention in interventions:
             success = manager.request_intervention(intervention)
@@ -26,7 +25,7 @@ class SimulationManager:
         # Run simulation
         if visualise:
             # Create animation
-            fig = plt.figure(figsize=(25/3, 6.25));
+            fig = plt.figure(figsize=(25/3, 6.25))
             ax = fig.add_subplot(111)
             ax.set_axis_off()
             ims = []
@@ -52,4 +51,12 @@ class SimulationManager:
 
 if __name__ == '__main__':
     manager = SimulationManager()
-    manager.run_simulation(init_del_loma_smol(), [], visualise=True)
+    initial_state = init_del_loma_smol()
+    initial_state[7, 150, 150] = 1
+    manager.run_simulation(
+        initial_state, 
+        {
+            'bulldozer': 3
+        },
+        [BullDozedFireLine((0,0), (198,198))],
+        visualise=True)

@@ -39,7 +39,7 @@ def step(X):
             if burning[y, x] == 1:
                 # If we are already burning...
                 # Simulate the impact of embers flying off and starting more fires far away
-                if np.random.random() < 0.000:
+                if np.random.random() < 0.0002:
                     # The distance the ember travels
                     distance = int(wind_speed[y, x] * 1.5)
                     # Calculate the displacement assuming the ember travels with the wind
@@ -49,7 +49,7 @@ def step(X):
                     # Stay within grid bounds
                     if y + dy in range(ny) and x + dx in range(nx):
                         # Let the ember land on the ground and potentially start a fire.
-                        prob_multipliers[y + dy, x + dx] = 5
+                        prob_multipliers[y + dy, x + dx] = 2
             else:
                 # If we are not burning, check if we should burn
                 for neighbour in neighbourhood:
