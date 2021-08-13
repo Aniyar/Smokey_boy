@@ -29,7 +29,7 @@ def enter_coords():
 @app.route('/map', methods=['GET'])
 def map():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('map_coords.html')
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
@@ -38,9 +38,13 @@ def inventory():
     im.init_table()
     if request.method == 'GET':
         return render_template('inventory.html', inventory=im.get_all())
-    elif request.method == 'POST':
+    elif request.method == 'POST' and "name" in request.form:
         name, rclass, availability, location, description = request.form["name"], request.form["classselect"], request.form["availabilityselect"], request.form["location"], request.form["description"]
         im.insert(name, rclass, availability, location, description)
+    elif request.method == 'POST' and "newlocation" in request.form:
+        im.change_location(3, request.form["newlocation"])
+    elif request.method == 'POST' and "newavaselect" in request.form:
+        im.change_availability(3, request.form["newavaselect"])
 
 
 @app.route('/delete_item/<int:item_id>', methods=['GET'])
@@ -54,7 +58,6 @@ def delete_news(item_id):
 def plan():
     if request.method == 'GET':
         return render_template('map_interventions.html')
-
 
 if __name__ == '__main__':
     app.run(debug = True)   

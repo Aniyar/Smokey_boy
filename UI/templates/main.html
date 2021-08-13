@@ -1,42 +1,47 @@
-<html>
+{% extends "layout.html" %}
+{% block title %} Main {% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block body %}
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        div {
-            text-align: center;
-            margin: 0 auto;
-            width: 250px;
-        }
-
         body {
             background-image: url('https://media-cldnry.s-nbcnews.com/image/upload/newscms/2021_30/3494481/210727-tamarack-fire-smoke-ew-240p.jpg');
         }
     </style>
 </head>
 
-<body style='margin: 70px'>
-    <div>
-        <h2>Enter fire coordinates</h2>
-        <form role="form" method="POST">
-            <label for="LngLat">Coordinates:</label><br>
-            <input type="text" name="LngLat" id="LngLat"><br>
-            <label for="radius">Radius:</label><br>
-            <input type="text" name="radius" id="radius"><br><br>
-
-            <button type='submit'>Submit</button>
-        </form>
-
-        <button type="button" class="btn btn-default" id="map_btn">See Map</button>
-        <button type="button" class="btn btn-default" id="inv_btn">Edit Inventory</button>
-        <button type="button" class="btn btn-default" id="plan_btn">Plan Demo</button>
-
+<body>
+    <div class="center">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="card" >
+                    <div class="card-header">
+                        <h2>Enter fire coordinates</h2>
+                    </div>
+                    <div class="card-body">
+                        <form class="box" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="LngLat">Coordinates:</label>
+                                <textarea class="form-control" rows="1" name="LngLat" id="LngLat"></textarea>
+                                <label for="radius">Radius:</label>
+                                <textarea class="form-control" rows="1" name="radius" id="radius"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <row>
+                            <button type="button" class="btn btn-secondary" id="map_btn">See Map</button>
+                            <button type="button" class="btn btn-secondary" id="inv_btn">Edit Inventory</button>
+                            <button type="button" class="btn btn-secondary" id="plan_btn">Plan Demo</button>
+                            <button type='submit' class="btn btn-success">Submit</button>
+                        </row>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>            
+        </div>
     </div>
 
 
@@ -53,4 +58,4 @@
     };
 </script>
 
-</html>
+{% endblock %}

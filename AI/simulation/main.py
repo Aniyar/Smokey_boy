@@ -5,7 +5,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from .grid_init import init_del_loma_smol
 from .simulation import step
-from .interventions import BullDozedFireLine
+from .interventions import *
 from .operations import OperationsManager
 
 if __name__ == '__main__':
@@ -18,17 +18,24 @@ if __name__ == '__main__':
 
     # Init the inventory manager
     manager = OperationsManager({
-        'bulldozer': 3
+        'fire_engine': 10,
+        'bulldozer': 10,
+        'fire_plane': 1,
+        'firefighter': 10000,
+        'retardent': 7200,
+        'fire_helicopter': 2,
+        'water': 100000
     })
 
     # Start a fire at (150,150)
     X[7, 150, 150] = 1
 
-    # Create a fireline
+    # # Create a fireline (x, y), but more y = more down
     for i in range(10):
-        fl = BullDozedFireLine((10 * i, 150),(199, 140))
+        fl = ManualFireLine((140, 145),(199, 145), 10)
         manager.request_intervention(fl)
-
+ 
+    
     # Create animation
     fig = plt.figure(figsize=(25/3, 6.25));
     ax = fig.add_subplot(111)
@@ -37,6 +44,9 @@ if __name__ == '__main__':
     ims = []
 
     for i in tqdm(range(30)):
+        if i == 10:
+            ws = HelicopterSplash((160, 140))
+            manager.request_intervention(ws)
         fuel = X[3, :, :]
         burning = X[7, :, :]
         map_layer = ax.imshow(fuel, cmap='PiYG')
