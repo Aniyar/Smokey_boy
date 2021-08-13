@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block title %} Get Coordinates of the Fire {% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block body %}
 
 <head>
     <meta charset="utf-8">
-    <title>Get coordinates of the mouse pointer</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.4.0/mapbox-gl.js"></script>
@@ -58,7 +59,7 @@
                 var coordinates = e.lngLat;
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
-                    .setHTML('you clicked here: <br/>' + coordinates)
+                    .setHTML('You clicked here: <br/>' + coordinates)
                     .addTo(map);
             });
         });
@@ -66,4 +67,4 @@
 
 </body>
 
-</html>
+{% endblock %}
