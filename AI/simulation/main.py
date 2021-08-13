@@ -24,16 +24,17 @@ if __name__ == '__main__':
         'firefighter': 10000,
         'retardent': 7200,
         'fire_helicopter': 2,
-        'water': 100000
+        'water': 100000000000
     })
 
     # Start a fire at (150,150)
     X[7, 150, 150] = 1
+    X[7, 10, 10] = 1
 
     # # Create a fireline (x, y), but more y = more down
-    for i in range(10):
-        fl = ManualFireLine((140, 145),(199, 145), 10)
-        manager.request_intervention(fl)
+    # for i in range(10):
+    #     fl = ManualFireLine((140, 145),(199, 145), 10)
+    #     manager.request_intervention(fl)
  
     
     # Create animation
@@ -44,9 +45,6 @@ if __name__ == '__main__':
     ims = []
 
     for i in tqdm(range(30)):
-        if i == 10:
-            ws = HelicopterSplash((160, 140))
-            manager.request_intervention(ws)
         fuel = X[3, :, :]
         burning = X[7, :, :]
         map_layer = ax.imshow(fuel, cmap='PiYG')

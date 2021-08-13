@@ -41,6 +41,8 @@ Sub classes:
 #TO-Do for future
 - Gassoline
 - Fire fighters specialization
+- It does not need to have all of the resources in a resources request
+- (More distance more consumption))Fire planes should consume more retardant when doing longer distances
 
 
 class FireEngine(Resource):

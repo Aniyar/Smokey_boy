@@ -61,7 +61,7 @@ class FireLine(Intervention):
 
 class BullDozedFireLine(FireLine):
     def __init__(self, start, end):
-        super().__init__(start, end, 1, 1, {'bulldozer': 1})
+        super().__init__(start, end, 1, 1, {'bulldozer': 1, 'firefighter': 1})
 
 
 class ManualFireLine(FireLine):
