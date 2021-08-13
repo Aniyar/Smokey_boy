@@ -22,7 +22,6 @@ def frick(a, b):  # <= NSFW >_>
 if __name__ == '__main__':
     N = 5
     generations = 2
-    simulation = SimulationManager()
     pool = multiprocessing.Pool(processes=4)
     # Create initial state
     initial_state = init_del_loma_smol()
@@ -76,6 +75,7 @@ if __name__ == '__main__':
         population = new_population
 
     # Test intervention plans
+    simulation = SimulationManager()
     final_states = [
         simulation.run_simulation(
             deepcopy(initial_state),
