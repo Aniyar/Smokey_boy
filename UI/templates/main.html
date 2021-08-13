@@ -1,27 +1,17 @@
-<html>
+{% extends "layout.html" %}
+{% block title %} Main {% endblock %}
+{% block head %} {{ super() }} {% endblock %}
+{% block body %}
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
-        div {
-            text-align: center;
-            margin: 0 auto;
-            width: 250px;
-        }
-
         body {
             background-image: url('https://media-cldnry.s-nbcnews.com/image/upload/newscms/2021_30/3494481/210727-tamarack-fire-smoke-ew-240p.jpg');
         }
     </style>
 </head>
 
-<body style='margin: 70px'>
+<body>
     <div>
         <h2>Enter fire coordinates</h2>
         <form role="form" method="POST">
@@ -53,4 +43,4 @@
     };
 </script>
 
-</html>
+{% endblock %}

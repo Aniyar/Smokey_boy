@@ -29,7 +29,7 @@ def enter_coords():
 @app.route('/map', methods=['GET'])
 def map():
     if request.method == 'GET':
-        return render_template('index.html')
+        return render_template('map_coords.html')
 
 
 @app.route('/inventory', methods=['GET', 'POST'])
@@ -57,8 +57,7 @@ def delete_news(item_id):
 @app.route('/plan', methods=['GET'])
 def plan():
     if request.method == 'GET':
-        return render_template('map_interventions.html')
-
+        return render_template('interventions.html')
 
 if __name__ == '__main__':
     app.run(debug = True)   
