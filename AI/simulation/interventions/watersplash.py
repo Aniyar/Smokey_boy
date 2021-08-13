@@ -6,6 +6,7 @@ from . import Intervention
 # still needs modification for the precipitation probability according to the equation
 class WaterSplash(Intervention):
   def __init__(self, center, resources, splash_radius):
+    super().__init__(resources)
     center = self.center
     splash_radius = self.splash_radius
     X = self.X
@@ -28,15 +29,15 @@ class WaterSplash(Intervention):
 class FireTruckSplash(WaterSplash):
   def __init__(self, center, no_trucks):
     splash_radius = 3 * no_trucks
-    super().__init__(self, center, {'firefighters': 5, 'firetruck': no_trucks}, splash_radius)
+    super().__init__(center, {'firefighters': 5, 'firetruck': no_trucks}, splash_radius)
 
 class ManualWaterSplash(WaterSplash):
   def __init__(self, center, no_firefighters):
-    m = -0.25 * (no_firefighters - 20)**2 + 100
+    m = -0.0025 * (no_firefighters - 20)**2 + 1
     splash_radius =  m * no_firefighters if m * no_firefighters <= 26 else 0.9 * no_firefighters
-    super().__init__(center, {'firefighters': no_firefighters}, splash_radius)
+    super().__init__(center, {'firefighters': no_firefighters}, round(splash_radius))
 
 class HelicopterSplash(WaterSplash):
   def __init__(self, center):
-    super().__init__(self,center, {'firefighters': 1,'helicopter': 1}, 5)
+    super().__init__(center, {'firefighters': 1,'helicopter': 1}, 5)
 
