@@ -3,18 +3,27 @@ from .simulation_manager import SimulationManager
 from .simulation.interventions import *
 import numpy as np
 from copy import deepcopy
+import multiprocessing
 
 
-def fitness(X): 
+def simulation_worker(x):
+    simulation = SimulationManager()
+    return simulation.run_simulation(*x)
+
+
+def fitness(X):
     return -np.sum(X[7, :, :])
 
-def frick(a, b): #<= NSFW >_>
+
+def frick(a, b):  # <= NSFW >_>
     return a + b
+
 
 if __name__ == '__main__':
     N = 5
     generations = 2
     simulation = SimulationManager()
+    pool = multiprocessing.Pool(processes=4)
     # Create initial state
     initial_state = init_del_loma_smol()
     initial_state[7, 150, 150] = 1
@@ -24,26 +33,27 @@ if __name__ == '__main__':
     # Come up with intervention plans
     population = [[
         BullDozedFireLine(
-            (150 + np.random.randint(30) - 15, 
-            150 + np.random.randint(30) - 15),
-            (150 + np.random.randint(30) - 15, 
-            150 + np.random.randint(30) - 15)
+            (150 + np.random.randint(60) - 30,
+             150 + np.random.randint(60) - 30),
+            (150 + np.random.randint(60) - 30,
+             150 + np.random.randint(60) - 30)
         ),
     ] for i in range(N)]
     # THE CIRCLE OF LIFE
     for generation in range(generations):
         # Test intervention plans
         final_states = [
-            [
-                simulation.run_simulation(
-                    deepcopy(initial_state), 
-                    deepcopy(available_resources),
-                    deepcopy(plan),
-                    steps=30,
-                    visualise=False
-                )
-                for i in range(3)
-            ]
+            pool.map(simulation_worker,
+                     [
+                         (
+                             deepcopy(initial_state),
+                             deepcopy(available_resources),
+                             deepcopy(plan),
+                             30, False
+                         )
+                         for i in range(3)
+                     ]
+                     )
             for plan in population
         ]
         # Evaluate the final states
@@ -51,8 +61,8 @@ if __name__ == '__main__':
                         for i, states in enumerate(final_states)]
         # Generate rankings
         final_score_rankings = sorted(
-            final_scores, 
-            key=lambda x: x[1], 
+            final_scores,
+            key=lambda x: x[1],
             reverse=True
         )
         # Cull the bottom 50% and discard the fitnesses
@@ -68,7 +78,7 @@ if __name__ == '__main__':
     # Test intervention plans
     final_states = [
         simulation.run_simulation(
-            deepcopy(initial_state), 
+            deepcopy(initial_state),
             deepcopy(available_resources),
             deepcopy(plan),
             steps=30,
@@ -81,8 +91,8 @@ if __name__ == '__main__':
                     for i, state in enumerate(final_states)]
     # Generate rankings
     final_score_rankings = sorted(
-        final_scores, 
-        key=lambda x: x[1], 
+        final_scores,
+        key=lambda x: x[1],
         reverse=True
     )
     # Get the best one
@@ -90,7 +100,7 @@ if __name__ == '__main__':
 
     simulation.run_simulation(
         deepcopy(initial_state),
-        deepcopy(available_resources), 
+        deepcopy(available_resources),
         [],
         steps=30,
         visualise=True
@@ -98,7 +108,7 @@ if __name__ == '__main__':
 
     simulation.run_simulation(
         deepcopy(initial_state),
-        deepcopy(available_resources), 
+        deepcopy(available_resources),
         deepcopy(population[best_plan]),
         steps=30,
         visualise=True
