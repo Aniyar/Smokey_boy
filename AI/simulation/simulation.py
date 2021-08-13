@@ -39,7 +39,7 @@ def step(X):
             if burning[y, x] == 1:
                 # If we are already burning...
                 # Simulate the impact of embers flying off and starting more fires far away
-                if np.random.random() < 0.002:
+                if np.random.random() < 0.000:
                     # The distance the ember travels
                     distance = int(wind_speed[y, x] * 1.5)
                     # Calculate the displacement assuming the ember travels with the wind

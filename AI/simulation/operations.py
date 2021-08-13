@@ -12,5 +12,4 @@ class OperationsManager:
         allowed = self.inventory.request_resources(intervention.resources)
         if allowed:
             self.interventions[intervention] = intervention.resources
-            print("ALLOWED")
         return allowed

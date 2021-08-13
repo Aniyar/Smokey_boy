@@ -68,7 +68,7 @@ class ManualFireLine(FireLine):
     def __init__(self, start, end, no_firefighters):
         m = -0.0025 * (no_firefighters - 20)**2 + 1 if no_firefighters <= 25 else 0.9
         speed = m * no_firefighters
-        super().__init__(start, end, round(speed), 0.8, {'firefighter': no_firefighters})
+        super().__init__(start, end, round(speed), 0.9, {'firefighter': no_firefighters})
 
 
 class PlaneFireLine(FireLine):
