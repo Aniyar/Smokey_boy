@@ -23,14 +23,18 @@ class FireLine(Intervention):
 
         dy = y2 - y1
         dx = x2 - x1
-
+        m = -1 if dx < 0 else 1
+        n = -1 if dy < 0 else 1
+        
+            
         for j in range(self.speed):
-            counter = self.i * self.speed + j
+            
             if abs(dy) > abs(dx):
+                counter = n * self.i * self.speed + j
                 # Calculate gradient wrt y
-                y_start = min(y1, y2)
+                y_start = y1
                 x_prev = x1
-                if counter < abs(dy) + 1:
+                if abs(counter) < abs(dy) + 1:
                     # Check if the x coordinate has changed - if so, plug holes
                     x_new = int(np.round(x1 + counter * dx / dy))
                     if x_new != x_prev:
@@ -39,10 +43,11 @@ class FireLine(Intervention):
                     else:
                         mask[y_start + counter, x_new] *= fuel
             else:
+                counter = m * self.i * self.speed + j
                 # Calculate gradient wrt x
-                x_start = min(x1, x2)
+                x_start = x1
                 y_prev = y1
-                if counter < abs(dx) + 1:
+                if abs(counter) < abs(dx) + 1:
                     y_new = int(np.round(y1 + counter * dy / dx))
                     if y_new != y_prev:
                         mask[y_new, x_start + counter -
@@ -56,18 +61,16 @@ class FireLine(Intervention):
 
 class BullDozedFireLine(FireLine):
     def __init__(self, start, end):
-        super().__init__(start, end, 10, 1, {'bulldozer': 1})
+        super().__init__(start, end, 1, 1, {'bulldozer': 1})
 
 
 class ManualFireLine(FireLine):
     def __init__(self, start, end, no_firefighters):
-        m = -0.0025 * (no_firefighters - 20)**2 + 1
-        speed = m * no_firefighters if m * no_firefighters <= 26 else 0.9 * no_firefighters
-        super().__init__(start, end, round(speed),
-                         1, {'people': no_firefighters})
+        m = -0.0025 * (no_firefighters - 20)**2 + 1 if no_firefighters <= 25 else 0.9
+        speed = m * no_firefighters
+        super().__init__(start, end, round(speed), 0.8, {'firefighter': no_firefighters})
 
 
-class Plane(FireLine):
+class PlaneFireLine(FireLine):
     def __init__(self, start, end):
-        super().__init__(self, start, end, {
-            'plane': 1, 'fighter': 1, 'retardent': 7200})
+        super().__init__(start, end, 5, 0.5, {'fire_plane': 1, 'firefighter': 1, 'retardent': 7200})
